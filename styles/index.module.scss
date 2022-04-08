@@ -1,2 +1,148 @@
+.header {
+  display: flex;
+  flex-direction: column;
+
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .divider {
+    width: 100%;
+    height: 4px;
+    background-color: #e4e4e4;
+    margin-top: 36px;
+  }
+}
+
 .main {
+  margin-top: 62px;
+  .hero {
+    display: flex;
+    flex-direction: column;
+
+    .cart {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 27px;
+
+      .title {
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 35px;
+      }
+
+      .cartBtn {
+        font-weight: 500;
+        font-size: 23px;
+        line-height: 25px;
+        letter-spacing: 0.07em;
+        color: white;
+        background-color: black;
+        width: 257px;
+        height: 47px;
+        text-align: center;
+      }
+    }
+
+    .featured {
+      position: relative;
+      margin-bottom: 67px;
+
+      .featuredImg {
+        width: 100%;
+      }
+
+      .featuredBtn {
+        position: absolute;
+        top: 0;
+        border: none;
+        width: 271.95px;
+        height: 67px;
+        background-color: white;
+        color: black;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 22px;
+      }
+    }
+
+    .about {
+      display: flex;
+
+      .aboutDetails {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .detailsTitle {
+          font-weight: 700;
+          font-size: 22px;
+          line-height: 24px;
+          color: #000000;
+          margin-bottom: 24px;
+        }
+
+        .detailsImgs {
+          margin-bottom: 26px;
+          .galleryThree {
+            margin-left: 30px;
+            margin-right: 35px;
+          }
+        }
+
+        .detailsContent {
+          .contentTitle {
+            font-weight: 700;
+            font-size: 22px;
+            line-height: 24px;
+            color: #000000;
+            margin-bottom: 10px;
+          }
+
+          .contentDescription {
+            font-size: 16px;
+            line-height: 25px;
+            color: #656565;
+          }
+        }
+      }
+
+      .aboutContent {
+        display: flex;
+        flex-direction: column;
+        margin-top: 12px;
+        width: 100%;
+
+        .aboutTitle {
+          font-size: 22px;
+          line-height: 24px;
+          color: #000000;
+          font-weight: 700;
+          margin-bottom: 12px;
+        }
+
+        .aboutSubtitle {
+          font-size: 22px;
+          line-height: 24px;
+          color: #656565;
+          margin-bottom: 15px;
+        }
+
+        .aboutParagraph {
+          font-size: 18px;
+          line-height: 150%;
+          color: #656565;
+        }
+      }
+    }
+    .divider {
+      width: 100%;
+      height: 4px;
+      background-color: #e4e4e4;
+      margin-top: 75px;
+    }
+  }
 }
