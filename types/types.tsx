@@ -4,7 +4,7 @@ export interface Gallery {
 export interface GalleryData {
   name: string;
   category: string;
-  price: number;
+  price: string;
   currency: string;
   image: {
     src: any;

@@ -244,7 +244,7 @@ const galleryData: Gallery = {
     {
       name: "Reinforced",
       category: "Glass",
-      price: 33.78,
+      price: "33.78",
       currency: "USD",
       image: {
         src: Reinforced,
@@ -257,7 +257,7 @@ const galleryData: Gallery = {
     {
       name: "Shape",
       category: "Steel",
-      price: 93.89,
+      price: "93.89",
       currency: "USD",
       image: {
         src: Shape,
@@ -270,7 +270,7 @@ const galleryData: Gallery = {
     {
       name: "Wave",
       category: "Steel",
-      price: 120.21,
+      price: "120.21",
       currency: "USD",
       image: {
         src: Wave,
@@ -283,7 +283,7 @@ const galleryData: Gallery = {
     {
       name: "Colored",
       category: "Glass",
-      price: 100.0,
+      price: "100.00",
       currency: "USD",
       image: {
         src: Colored,
@@ -296,7 +296,7 @@ const galleryData: Gallery = {
     {
       name: "Red",
       category: "Brick",
-      price: 101.0,
+      price: "101.00",
       currency: "USD",
       image: {
         src: Red,
@@ -309,7 +309,7 @@ const galleryData: Gallery = {
     {
       name: "Pastel",
       category: "Brick",
-      price: 101.0,
+      price: "101.00",
       currency: "USD",
       image: {
         src: Pastel,
