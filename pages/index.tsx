@@ -5,12 +5,21 @@ import styles from "../styles/index.module.scss";
 import Actum from "/assets/ACTUMLOGO.svg";
 import Cart from "/assets/CART.svg";
 import HeroGallery from "/assets/galleryMain.png";
+import Reinforced from "/assets/reinforced.png";
+import Shape from "/assets/shape.png";
+import Wave from "/assets/wave.png";
+import Colored from "/assets/colored.png";
+import Red from "/assets/red.png";
+import Pastel from "/assets/pastel.png";
 import GalleryTwo from "/assets/gallery2.svg";
 import GalleryThree from "/assets/gallery3.svg";
 import GalleryFour from "/assets/gallery4.svg";
 import Sorting from "/assets/sort.svg";
 import ArrowDown from "/assets/arrowDown.svg";
-import { materials, priceRange } from "../data/data";
+import ArrowLeft from "/assets/leftArrow.svg";
+import ArrowRight from "/assets/rightArrow.svg";
+
+import { Gallery } from "../types/types";
 
 const Home: NextPage = () => {
   return (
@@ -155,13 +164,160 @@ const Home: NextPage = () => {
                   })}
                 </div>
               </div>
-              <div className={styles.galleryShowcase}></div>
+              <div className={styles.galleryShowcase}>
+                {galleryData.products.map((product) => {
+                  return (
+                    <div key={product.name} className={styles.product}>
+                      <div className={styles.galleryShowcaseImage}>
+                        <Image
+                          src={product.image.src}
+                          alt={product.image.alt}
+                          width={280}
+                          height={390}
+                        />
+
+                        {product.bestseller && (
+                          <div className={styles.galleryShowcaseBestSeller}>
+                            Best Seller
+                          </div>
+                        )}
+
+                        <div className={styles.galleryShowcaseAddCart}>
+                          <div className={styles.galleryShowcaseAddCartTitle}>
+                            ADD TO CART
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={styles.galleryShowcaseTitle}>
+                        {product.name}
+                      </div>
+                      <div className={styles.galleryShowcaseSubtitle}>
+                        {product.category}
+                      </div>
+                      <div className={styles.galleryShowcasePrice}>
+                        ${product.price}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </section>
         </main>
+        <footer>
+          <div className={styles.footer}>
+            <ArrowLeft className={styles.pageArrowLeft} />
+            <div className={styles.activePageNumber}>1</div>
+            <div className={styles.pageNumber}>2</div>
+            <div className={styles.pageNumber}>3</div>
+            <div className={styles.pageNumber}>4</div>
+            <ArrowRight className={styles.pageArrowRight} />
+          </div>
+        </footer>
       </div>
     </>
   );
 };
 
 export default Home;
+
+const materials = [
+  "wood",
+  "Concrete",
+  "Brick",
+  "Glass",
+  "Steel",
+  "Carbon Fiber",
+  "Copper",
+];
+
+const priceRange = [
+  "Lower than $20",
+  "$20 - $100",
+  "$100 - $200",
+  "More than $200",
+];
+
+const galleryData: Gallery = {
+  products: [
+    {
+      name: "Reinforced",
+      category: "Glass",
+      price: 33.78,
+      currency: "USD",
+      image: {
+        src: Reinforced,
+        alt: "reinforced",
+      },
+      bestseller: true,
+      featured: false,
+      details: null,
+    },
+    {
+      name: "Shape",
+      category: "Steel",
+      price: 93.89,
+      currency: "USD",
+      image: {
+        src: Shape,
+        alt: "shape",
+      },
+      bestseller: false,
+      featured: false,
+      details: null,
+    },
+    {
+      name: "Wave",
+      category: "Steel",
+      price: 120.21,
+      currency: "USD",
+      image: {
+        src: Wave,
+        alt: "wave",
+      },
+      bestseller: false,
+      featured: false,
+      details: null,
+    },
+    {
+      name: "Colored",
+      category: "Glass",
+      price: 100.0,
+      currency: "USD",
+      image: {
+        src: Colored,
+        alt: "colored",
+      },
+      bestseller: false,
+      featured: false,
+      details: null,
+    },
+    {
+      name: "Red",
+      category: "Brick",
+      price: 101.0,
+      currency: "USD",
+      image: {
+        src: Red,
+        alt: "red",
+      },
+      bestseller: false,
+      featured: false,
+      details: null,
+    },
+    {
+      name: "Pastel",
+      category: "Brick",
+      price: 101.0,
+      currency: "USD",
+      image: {
+        src: Pastel,
+        alt: "pastel",
+      },
+      bestseller: false,
+      featured: false,
+      details: null,
+    },
+  ],
+};

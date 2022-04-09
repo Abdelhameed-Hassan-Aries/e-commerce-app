@@ -156,6 +156,7 @@
   .gallery {
     display: flex;
     flex-direction: column;
+    margin-bottom: 100px;
 
     // Header
 
@@ -206,6 +207,7 @@
 
     .galleryContent {
       display: flex;
+      justify-content: space-between;
 
       // Filters
 
@@ -256,7 +258,97 @@
       // Gallery ShowCase
 
       .galleryShowcase {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 48.3px;
+        row-gap: 57px;
+
+        .galleryShowcaseImage {
+          position: relative;
+
+          .galleryShowcaseBestSeller {
+            position: absolute;
+            top: 0;
+            background-color: white;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 22px;
+            padding: 7px 7px 3px 20px;
+          }
+
+          .galleryShowcaseAddCart {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: black;
+            color: white;
+            font-weight: 500;
+            font-size: 23px;
+            line-height: 25px;
+            text-align: center;
+            letter-spacing: 0.07em;
+            cursor: pointer;
+
+            .galleryShowcaseAddCartTitle {
+              padding: 10px 32px 15px 32px;
+            }
+          }
+        }
+
+        .galleryShowcaseTitle {
+          font-weight: 700;
+          font-size: 22px;
+          line-height: 24px;
+          color: #656565;
+          padding: 8px 0;
+        }
+
+        .galleryShowcaseSubtitle {
+          font-weight: 700;
+          font-size: 34px;
+          line-height: 37px;
+          color: black;
+          padding-bottom: 9px;
+        }
+
+        .galleryShowcasePrice {
+          font-size: 29px;
+          line-height: 32px;
+          color: #656565;
+        }
       }
     }
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .pageArrowRight {
+    cursor: pointer;
+    margin-left: 7.5px;
+  }
+
+  .pageArrowLeft {
+    cursor: pointer;
+    margin-right: 7.5px;
+  }
+
+  .activePageNumber {
+    font-weight: 700;
+    font-size: 29px;
+    line-height: 32px;
+    cursor: pointer;
+    margin: 0 7.5px;
+  }
+
+  .pageNumber {
+    cursor: pointer;
+    font-size: 29px;
+    line-height: 32px;
+    color: #b4b4b4;
+    margin: 0 7.5px;
   }
 }
