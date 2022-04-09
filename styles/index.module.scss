@@ -18,6 +18,9 @@
 
 .main {
   margin-top: 62px;
+
+  // first section
+
   .hero {
     display: flex;
     flex-direction: column;
@@ -143,6 +146,106 @@
       height: 4px;
       background-color: #e4e4e4;
       margin-top: 75px;
+    }
+  }
+
+  // second section
+
+  .gallery {
+    display: flex;
+    flex-direction: column;
+
+    .galleryHeader {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 75px;
+
+      .galleryTitle {
+        display: flex;
+        margin-top: 48px;
+
+        .galleryTitleType {
+          font-weight: 700;
+          font-size: 30px;
+          line-height: 33px;
+          color: black;
+        }
+
+        .gallerySelection {
+          font-size: 30px;
+          line-height: 33px;
+          color: #9b9b9b;
+        }
+      }
+
+      .gallerySort {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        margin-top: 70px;
+
+        .gallerySortBy {
+          font-size: 22px;
+          line-height: 24px;
+          color: #9b9b9b;
+          padding-left: 7px;
+          padding-right: 15px;
+        }
+
+        .galleryPrice {
+          font-size: 22px;
+          line-height: 24px;
+          color: black;
+        }
+      }
+    }
+
+    .galleryContent {
+      display: flex;
+
+      .galleryFilters {
+        display: flex;
+        flex-direction: column;
+
+        .materialFiltersTitle,
+        .priceFiltersTitle {
+          font-size: 22px;
+          line-height: 24px;
+          font-weight: 700;
+          color: black;
+          margin-bottom: 23px;
+        }
+
+        .materialFilters,
+        .priceFilters {
+          display: flex;
+          flex-direction: column;
+          font-size: 22px;
+          line-height: 24px;
+          color: #1d1d1d;
+
+          .itemFiltersItems {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+
+            .itemLabel {
+              font-weight: 400;
+              font-size: 22px;
+              line-height: 24px;
+              margin-left: 23px;
+            }
+          }
+        }
+
+        .divider {
+          width: 100%;
+          height: 4px;
+          background-color: #e4e4e4;
+          margin-top: 31px;
+          margin-bottom: 40px;
+        }
+      }
     }
   }
 }

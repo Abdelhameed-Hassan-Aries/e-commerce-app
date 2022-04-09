@@ -7,10 +7,6 @@ module.exports = {
       use: ["@svgr/webpack"],
     });
 
-    config.module.rules.push({
-      "@next/next/no-img-element": "off",
-    });
-
     return config;
   },
 };

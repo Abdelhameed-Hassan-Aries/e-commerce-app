@@ -8,6 +8,9 @@ import HeroGallery from "/assets/galleryMain.png";
 import GalleryTwo from "/assets/gallery2.svg";
 import GalleryThree from "/assets/gallery3.svg";
 import GalleryFour from "/assets/gallery4.svg";
+import Sorting from "/assets/sort.svg";
+import ArrowDown from "/assets/arrowDown.svg";
+import { materials, priceRange } from "../data/data";
 
 const Home: NextPage = () => {
   return (
@@ -30,6 +33,8 @@ const Home: NextPage = () => {
         </header>
 
         <main className={styles.main}>
+          {/*  first section */}
+
           <section className={styles.hero}>
             <div className={styles.cart}>
               <div className={styles.title}>Recycled Plastic</div>
@@ -37,7 +42,6 @@ const Home: NextPage = () => {
                 <button className={styles.cartBtn}>ADD TO CART</button>
               </div>
             </div>
-
             <div className={styles.featured}>
               <Image
                 className={styles.featuredImg}
@@ -50,7 +54,6 @@ const Home: NextPage = () => {
 
               <button className={styles.featuredBtn}>Featured</button>
             </div>
-
             <div className={styles.about}>
               <div className={styles.aboutDetails}>
                 <div className={styles.detailsTitle}>
@@ -93,7 +96,68 @@ const Home: NextPage = () => {
             <div className={styles.divider}></div>
           </section>
 
-          <section className={styles.gallery}></section>
+          {/*  second section */}
+
+          <section className={styles.gallery}>
+            <div className={styles.galleryHeader}>
+              <div className={styles.galleryTitle}>
+                <div className={styles.galleryTitleType}>Materials /</div>
+                <div className={styles.gallerySelection}>Premium Photos</div>
+              </div>
+
+              <div className={styles.gallerySort}>
+                <Sorting />
+                <div className={styles.gallerySortBy}>SortBy </div>
+                <div className={styles.galleryPrice}>
+                  Price <ArrowDown />
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.galleryContent}>
+              <div className={styles.galleryFilters}>
+                <div className={styles.materialFiltersTitle}>Materials</div>
+                <div className={styles.materialFilters}>
+                  {materials.map((material, i) => {
+                    return (
+                      <div key={i} className={styles.itemFiltersItems}>
+                        <input
+                          key={i}
+                          type="checkbox"
+                          name={material}
+                          value={material}
+                          className={styles.itemInput}
+                        />
+                        <label htmlFor={material} className={styles.itemLabel}>
+                          {material}
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className={styles.divider}></div>
+                <div className={styles.priceFiltersTitle}>Price Range</div>
+                <div className={styles.priceFilters}>
+                  {priceRange.map((item, i) => {
+                    return (
+                      <div key={i} className={styles.itemFiltersItems}>
+                        <input
+                          type="checkbox"
+                          name={item}
+                          value={item}
+                          className={styles.itemInput}
+                        />
+                        <label htmlFor={item} className={styles.itemLabel}>
+                          {item}
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className={styles.galleryShowcase}></div>
+            </div>
+          </section>
         </main>
       </div>
     </>
