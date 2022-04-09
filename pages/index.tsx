@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -18,10 +19,27 @@ import Sorting from "/assets/sort.svg";
 import ArrowDown from "/assets/arrowDown.svg";
 import ArrowLeft from "/assets/leftArrow.svg";
 import ArrowRight from "/assets/rightArrow.svg";
-
+import Close from "/assets/close.svg";
 import { Gallery } from "../types/types";
 
 const Home: NextPage = () => {
+  const [cartItems, setCartItems] = useState([
+    {
+      name: "Reinforced",
+      category: "Glass",
+      price: "33.78",
+      currency: "USD",
+      image: {
+        src: Reinforced,
+        alt: "reinforced",
+      },
+      bestseller: true,
+      featured: false,
+      details: null,
+    },
+  ]);
+  const [cartItemsCount, setCartItemsCount] = useState(0);
+
   return (
     <>
       <Head>
@@ -35,7 +53,44 @@ const Home: NextPage = () => {
           <div className={styles.header}>
             <div className={styles.content}>
               <Actum />
-              <Cart style={{ cursor: "pointer" }} />
+              <div className={styles.cartImgWrapper}>
+                <Cart className={styles.cartImg} />
+                <div className={styles.cartImgCounter}>{cartItemsCount}</div>
+
+                <div className={styles.popup}>
+                  {cartItems &&
+                    cartItems.map((cartItem) => {
+                      return (
+                        <>
+                          <div className={styles.closeIcon}>
+                            <Close />
+                          </div>
+                          <div className={styles.itemWrapper}>
+                            <div className={styles.itemContent}>
+                              <div className={styles.itemName}>
+                                {cartItem.name}
+                              </div>
+                              <div className={styles.itemPrice}>
+                                ${cartItem.price}
+                              </div>
+                            </div>
+
+                            <div className={styles.itemImg}>
+                              <Image
+                                src={cartItem.image.src}
+                                alt={cartItem.image.alt}
+                                height={92}
+                                width={168}
+                              />
+                            </div>
+                          </div>
+                          <div className={styles.divider}></div>
+                        </>
+                      );
+                    })}
+                  <button className={styles.popupBtn}>CLEAR</button>
+                </div>
+              </div>
             </div>
             <div className={styles.divider}></div>
           </div>
