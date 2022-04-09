@@ -26,7 +26,7 @@ const Home: NextPage = () => {
           <div className={styles.header}>
             <div className={styles.content}>
               <Actum />
-              <Cart />
+              <Cart style={{ cursor: "pointer" }} />
             </div>
             <div className={styles.divider}></div>
           </div>
