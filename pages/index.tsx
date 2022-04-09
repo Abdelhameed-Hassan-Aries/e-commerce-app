@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -20,25 +20,59 @@ import ArrowDown from "/assets/arrowDown.svg";
 import ArrowLeft from "/assets/leftArrow.svg";
 import ArrowRight from "/assets/rightArrow.svg";
 import Close from "/assets/close.svg";
-import { Gallery } from "../types/types";
+import { Gallery, GalleryData } from "../types/types";
 
 const Home: NextPage = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      name: "Reinforced",
-      category: "Glass",
-      price: "33.78",
-      currency: "USD",
-      image: {
-        src: Reinforced,
-        alt: "reinforced",
-      },
-      bestseller: true,
-      featured: false,
-      details: null,
-    },
-  ]);
+  const [featuredItem, setFeaturedItem] = useState<GalleryData | undefined>();
+  const [cartItems, setCartItems] = useState<GalleryData[]>([]);
   const [cartItemsCount, setCartItemsCount] = useState(0);
+  const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
+  const [addToCartBtn, setAddToCartBtn] = useState(false);
+  const [currentHoveredItem, setCurrentHoveredItem] = useState<number | null>(
+    null
+  );
+
+  useEffect(() => {
+    const getFeaturedItem = (): GalleryData | undefined => {
+      const featuredItem = galleryData.products.find((elem) => elem.featured);
+      return featuredItem;
+    };
+
+    setFeaturedItem(getFeaturedItem);
+  }, []);
+
+  const openCartPopup = () => {
+    setIsCartPopupOpen(!isCartPopupOpen);
+  };
+
+  const handleAddToCart = (product: GalleryData) => {
+    cartItems.push(product);
+    setCartItemsCount(cartItems.length);
+    setCartItems(cartItems);
+    setIsCartPopupOpen(true);
+  };
+
+  const removeSelectedItem = (index: number) => {
+    cartItems.splice(index, 1);
+    setCartItemsCount(cartItems.length);
+    setCartItems(cartItems);
+  };
+
+  const clearCart = () => {
+    setCartItemsCount(0);
+    setCartItems([]);
+    setIsCartPopupOpen(false);
+  };
+
+  const showAddToCartBtn = (index: number) => {
+    setAddToCartBtn(true);
+    setCurrentHoveredItem(index);
+  };
+
+  const removeAddToCartBtn = () => {
+    setAddToCartBtn(false);
+    setCurrentHoveredItem(null);
+  };
 
   return (
     <>
@@ -54,15 +88,26 @@ const Home: NextPage = () => {
             <div className={styles.content}>
               <Actum />
               <div className={styles.cartImgWrapper}>
-                <Cart className={styles.cartImg} />
-                <div className={styles.cartImgCounter}>{cartItemsCount}</div>
+                <Cart className={styles.cartImg} onClick={openCartPopup} />
 
-                <div className={styles.popup}>
-                  {cartItems &&
-                    cartItems.map((cartItem) => {
+                {cartItemsCount > 0 && (
+                  <div
+                    className={styles.cartImgCounter}
+                    onClick={openCartPopup}
+                  >
+                    {cartItemsCount}
+                  </div>
+                )}
+
+                {isCartPopupOpen && (
+                  <div className={styles.popup}>
+                    {cartItems.map((cartItem, index) => {
                       return (
-                        <>
-                          <div className={styles.closeIcon}>
+                        <div key={index}>
+                          <div
+                            className={styles.closeIcon}
+                            onClick={() => removeSelectedItem(index)}
+                          >
                             <Close />
                           </div>
                           <div className={styles.itemWrapper}>
@@ -85,11 +130,14 @@ const Home: NextPage = () => {
                             </div>
                           </div>
                           <div className={styles.divider}></div>
-                        </>
+                        </div>
                       );
                     })}
-                  <button className={styles.popupBtn}>CLEAR</button>
-                </div>
+                    <button className={styles.popupBtn} onClick={clearCart}>
+                      CLEAR
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
             <div className={styles.divider}></div>
@@ -102,19 +150,23 @@ const Home: NextPage = () => {
           <section className={styles.hero}>
             <div className={styles.cart}>
               <div className={styles.title}>Recycled Plastic</div>
+
               <div className={styles.addToCart}>
                 <button className={styles.cartBtn}>ADD TO CART</button>
               </div>
             </div>
             <div className={styles.featured}>
-              <Image
-                className={styles.featuredImg}
-                src={HeroGallery}
-                alt="hero-image"
-                quality={100}
-                height={500}
-                sizes="fill"
-              />
+              {featuredItem && (
+                <Image
+                  className={styles.featuredImg}
+                  src={featuredItem?.image.src}
+                  alt={featuredItem?.image.alt}
+                  quality={100}
+                  height={500}
+                  sizes="fill"
+                  priority={true}
+                />
+              )}
 
               <button className={styles.featuredBtn}>Featured</button>
             </div>
@@ -123,6 +175,7 @@ const Home: NextPage = () => {
                 <div className={styles.detailsTitle}>
                   Materials people also use
                 </div>
+
                 <div className={styles.detailsImgs}>
                   <GalleryTwo />
                   <GalleryThree className={styles.galleryThree} />
@@ -130,11 +183,13 @@ const Home: NextPage = () => {
                 </div>
                 <div className={styles.detailsContent}>
                   <div className={styles.contentTitle}>Details</div>
+
                   <div className={styles.contentDescription}>
                     Weight: 2340g/m2 <br /> Thickness 3cm
                   </div>
                 </div>
               </div>
+
               <div className={styles.aboutContent}>
                 <div className={styles.aboutTitle}>
                   About the Recycled Plastic
@@ -166,12 +221,15 @@ const Home: NextPage = () => {
             <div className={styles.galleryHeader}>
               <div className={styles.galleryTitle}>
                 <div className={styles.galleryTitleType}>Materials /</div>
+
                 <div className={styles.gallerySelection}>Premium Photos</div>
               </div>
 
               <div className={styles.gallerySort}>
                 <Sorting />
-                <div className={styles.gallerySortBy}>SortBy </div>
+
+                <div className={styles.gallerySortBy}>SortBy</div>
+
                 <div className={styles.galleryPrice}>
                   Price <ArrowDown />
                 </div>
@@ -181,6 +239,7 @@ const Home: NextPage = () => {
             <div className={styles.galleryContent}>
               <div className={styles.galleryFilters}>
                 <div className={styles.materialFiltersTitle}>Materials</div>
+
                 <div className={styles.materialFilters}>
                   {materials.map((material, i) => {
                     return (
@@ -192,6 +251,7 @@ const Home: NextPage = () => {
                           value={material}
                           className={styles.itemInput}
                         />
+
                         <label htmlFor={material} className={styles.itemLabel}>
                           {material}
                         </label>
@@ -200,7 +260,9 @@ const Home: NextPage = () => {
                   })}
                 </div>
                 <div className={styles.divider}></div>
+
                 <div className={styles.priceFiltersTitle}>Price Range</div>
+
                 <div className={styles.priceFilters}>
                   {priceRange.map((item, i) => {
                     return (
@@ -211,6 +273,7 @@ const Home: NextPage = () => {
                           value={item}
                           className={styles.itemInput}
                         />
+
                         <label htmlFor={item} className={styles.itemLabel}>
                           {item}
                         </label>
@@ -219,10 +282,17 @@ const Home: NextPage = () => {
                   })}
                 </div>
               </div>
+
               <div className={styles.galleryShowcase}>
-                {galleryData.products.map((product) => {
+                {galleryData.products.slice(0, 6).map((product, index) => {
                   return (
-                    <div key={product.name} className={styles.product}>
+                    <div
+                      key={product.name}
+                      className={styles.product}
+                      onClick={() => handleAddToCart(product)}
+                      onMouseEnter={() => showAddToCartBtn(index)}
+                      onMouseLeave={removeAddToCartBtn}
+                    >
                       <div className={styles.galleryShowcaseImage}>
                         <Image
                           src={product.image.src}
@@ -237,19 +307,23 @@ const Home: NextPage = () => {
                           </div>
                         )}
 
-                        <div className={styles.galleryShowcaseAddCart}>
-                          <div className={styles.galleryShowcaseAddCartTitle}>
-                            ADD TO CART
+                        {addToCartBtn && currentHoveredItem === index && (
+                          <div className={styles.galleryShowcaseAddCart}>
+                            <div className={styles.galleryShowcaseAddCartTitle}>
+                              ADD TO CART
+                            </div>
                           </div>
-                        </div>
+                        )}
                       </div>
 
                       <div className={styles.galleryShowcaseTitle}>
                         {product.name}
                       </div>
+
                       <div className={styles.galleryShowcaseSubtitle}>
                         {product.category}
                       </div>
+
                       <div className={styles.galleryShowcasePrice}>
                         ${product.price}
                       </div>
@@ -372,6 +446,19 @@ const galleryData: Gallery = {
       },
       bestseller: false,
       featured: false,
+      details: null,
+    },
+    {
+      name: "Recycled Plastic",
+      category: "Plastic",
+      price: "10000.00",
+      currency: "USD",
+      image: {
+        src: HeroGallery,
+        alt: "Recycled Plastic",
+      },
+      bestseller: false,
+      featured: true,
       details: null,
     },
   ],

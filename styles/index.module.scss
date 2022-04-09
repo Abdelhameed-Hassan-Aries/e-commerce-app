@@ -26,6 +26,7 @@
         line-height: 22px;
         text-align: center;
         letter-spacing: 0.07em;
+        cursor: pointer;
       }
 
       .popup {
@@ -41,8 +42,10 @@
         padding: 22px 24px 22px 27px;
 
         .closeIcon {
-          align-self: flex-end;
+          display: flex;
+          justify-content: flex-end;
           margin-bottom: 9px;
+          cursor: pointer;
         }
 
         .itemWrapper {
@@ -93,6 +96,7 @@
           text-align: center;
           letter-spacing: 0.07em;
           color: #000000;
+          cursor: pointer;
         }
       }
     }
