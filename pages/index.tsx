@@ -45,6 +45,13 @@ const Home: NextPage = () => {
     setIsCartPopupOpen(!isCartPopupOpen);
   };
 
+  const addFeaturedToCart = () => {
+    cartItems.push(featuredItem as GalleryData);
+    setCartItems(cartItems);
+    setCartItemsCount(cartItems.length);
+    setIsCartPopupOpen(true);
+  };
+
   const handleAddToCart = (product: GalleryData) => {
     cartItems.push(product);
     setCartItemsCount(cartItems.length);
@@ -56,6 +63,9 @@ const Home: NextPage = () => {
     cartItems.splice(index, 1);
     setCartItemsCount(cartItems.length);
     setCartItems(cartItems);
+    if (cartItems.length === 0) {
+      setIsCartPopupOpen(false);
+    }
   };
 
   const clearCart = () => {
@@ -152,7 +162,9 @@ const Home: NextPage = () => {
               <div className={styles.title}>Recycled Plastic</div>
 
               <div className={styles.addToCart}>
-                <button className={styles.cartBtn}>ADD TO CART</button>
+                <button className={styles.cartBtn} onClick={addFeaturedToCart}>
+                  ADD TO CART
+                </button>
               </div>
             </div>
             <div className={styles.featured}>
