@@ -16,13 +16,13 @@ import GalleryTwo from "/assets/gallery2.svg";
 import GalleryThree from "/assets/gallery3.svg";
 import GalleryFour from "/assets/gallery4.svg";
 import Sorting from "/assets/sort.svg";
-import ArrowDown from "/assets/arrowDown.svg";
 import ArrowLeft from "/assets/leftArrow.svg";
 import ArrowRight from "/assets/rightArrow.svg";
 import Close from "/assets/close.svg";
 import { Gallery, GalleryData } from "../types/types";
 
 const Home: NextPage = () => {
+  const [galleryItems, setGalleryItems] = useState(galleryData.products);
   const [featuredItem, setFeaturedItem] = useState<GalleryData | undefined>();
   const [cartItems, setCartItems] = useState<GalleryData[]>([]);
   const [cartItemsCount, setCartItemsCount] = useState(0);
@@ -56,20 +56,17 @@ const Home: NextPage = () => {
   };
 
   const handleAddToCart = (product: GalleryData) => {
-    const addItems: any = [];
-    addItems.push(product);
-    setCartItems((prevState) => [...prevState, ...addItems]);
-
-    setCartItemsCount(addItems.length);
+    cartItems.push(product);
+    setCartItems(cartItems);
+    setCartItemsCount(cartItems.length);
     setIsCartPopupOpen(true);
   };
 
   const removeSelectedItem = (index: number) => {
-    const removeItems = [...cartItems];
-    removeItems.splice(index, 1);
-    setCartItems(removeItems);
-    setCartItemsCount(removeItems.length);
-    if (removeItems.length === 0) {
+    cartItems.splice(index, 1);
+    setCartItems(cartItems);
+    setCartItemsCount(cartItems.length);
+    if (cartItems.length === 0) {
       setIsCartPopupOpen(false);
     }
   };
@@ -103,9 +100,7 @@ const Home: NextPage = () => {
             : parseFloat(b.price) - parseFloat(a.price);
         });
 
-        console.log("sortedArr 1", galleryData);
-
-        setCartItems(sortedArr);
+        setGalleryItems(sortedArr);
         break;
 
       case "Alphabet":
@@ -116,8 +111,7 @@ const Home: NextPage = () => {
             : b.name.localeCompare(a.name);
         });
 
-        console.log("sortedArr 2", galleryData);
-        setCartItems(sortedArr);
+        setGalleryItems(sortedArr);
         break;
 
       default:
@@ -351,7 +345,7 @@ const Home: NextPage = () => {
               </div>
 
               <div className={styles.galleryShowcase}>
-                {galleryData.products.slice(0, 6).map((product, index) => {
+                {galleryItems.slice(0, 6).map((product, index) => {
                   return (
                     <div
                       key={index}
