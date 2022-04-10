@@ -1,3 +1,5 @@
+export type SortMethod = "Price" | "Alphabet";
+
 export interface Gallery {
   [key: string]: GalleryData[];
 }

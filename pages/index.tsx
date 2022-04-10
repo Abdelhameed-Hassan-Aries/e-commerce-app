@@ -19,10 +19,13 @@ import Sorting from "/assets/sort.svg";
 import ArrowLeft from "/assets/leftArrow.svg";
 import ArrowRight from "/assets/rightArrow.svg";
 import Close from "/assets/close.svg";
-import { Gallery, GalleryData } from "../types/types";
+import { Gallery, GalleryData, SortMethod } from "../types/types";
 
 const Home: NextPage = () => {
-  const [galleryItems, setGalleryItems] = useState(galleryData.products);
+  const [galleryItems, setGalleryItems] = useState<GalleryData[]>(
+    galleryData.products
+  );
+  const [filteredGalleryItem, setFilteredGalleryItem] = useState([]);
   const [featuredItem, setFeaturedItem] = useState<GalleryData | undefined>();
   const [cartItems, setCartItems] = useState<GalleryData[]>([]);
   const [cartItemsCount, setCartItemsCount] = useState(0);
@@ -31,9 +34,13 @@ const Home: NextPage = () => {
   const [currentHoveredItem, setCurrentHoveredItem] = useState<number | null>(
     null
   );
-  const [currentSortMethod, setCurrentSortMethod] = useState("");
+  const [currentSortMethod, setCurrentSortMethod] =
+    useState<SortMethod>("Price");
   const [togglePrice, setTogglePrice] = useState(false);
   const [toggleAlphabit, setToggleAlphabit] = useState(false);
+  const [activeCheckedPrice, setActiveCheckedPrice] = useState<number | null>(
+    null
+  );
 
   useEffect(() => {
     const getFeaturedItem = (): GalleryData | undefined => {
@@ -88,7 +95,7 @@ const Home: NextPage = () => {
   };
 
   const handleSorting = (event?: any, sortMethodType?: string) => {
-    const sortMethod = event ? event.target.value : sortMethodType;
+    const sortMethod: SortMethod = event ? event.target.value : sortMethodType;
     let sortedArr = galleryData.products;
     setCurrentSortMethod(sortMethod);
     switch (sortMethod) {
@@ -121,6 +128,61 @@ const Home: NextPage = () => {
 
   const toggleSorting = () => {
     handleSorting(null, currentSortMethod);
+  };
+
+  const handleMaterialFiltering = (event: any, materialName: string) => {
+    console.log("event", event.target.checked);
+    const selectedFilter = event.target.value;
+  };
+
+  const handlePriceFiltering = (Range: string, index: number) => {
+    if (index === activeCheckedPrice) {
+      setActiveCheckedPrice(null);
+      setGalleryItems(galleryData.products);
+      return;
+    }
+
+    setActiveCheckedPrice(index);
+
+    let filteredGallery = [];
+
+    switch (Range) {
+      case priceRange[0]:
+        filteredGallery = galleryData.products.filter(
+          (galleryItem) => parseInt(galleryItem.price) < 20
+        );
+        setGalleryItems(filteredGallery);
+        break;
+
+      case priceRange[1]:
+        filteredGallery = galleryData.products.filter((galleryItem) => {
+          return (
+            parseInt(galleryItem.price) >= 20 &&
+            parseInt(galleryItem.price) <= 100
+          );
+        });
+        setGalleryItems(filteredGallery);
+        break;
+
+      case priceRange[2]:
+        filteredGallery = galleryData.products.filter(
+          (galleryItem) =>
+            parseInt(galleryItem.price) >= 100 &&
+            parseInt(galleryItem.price) <= 200
+        );
+        setGalleryItems(filteredGallery);
+        break;
+
+      case priceRange[3]:
+        filteredGallery = galleryData.products.filter(
+          (galleryItem) => parseInt(galleryItem.price) > 200
+        );
+        setGalleryItems(filteredGallery);
+        break;
+
+      default:
+        break;
+    }
   };
 
   return (
@@ -301,6 +363,10 @@ const Home: NextPage = () => {
               <div className={styles.galleryFilters}>
                 <div className={styles.materialFiltersTitle}>Materials</div>
 
+                {/* ///////////////////// */}
+                {/* ///////////////////// */}
+                {/* ///////////////////// */}
+
                 <div className={styles.materialFilters}>
                   {materials.map((material, i) => {
                     return (
@@ -311,6 +377,9 @@ const Home: NextPage = () => {
                           name={material}
                           value={material}
                           className={styles.itemInput}
+                          onChange={(event) =>
+                            handleMaterialFiltering(event, material)
+                          }
                         />
 
                         <label htmlFor={material} className={styles.itemLabel}>
@@ -325,14 +394,16 @@ const Home: NextPage = () => {
                 <div className={styles.priceFiltersTitle}>Price Range</div>
 
                 <div className={styles.priceFilters}>
-                  {priceRange.map((item, i) => {
+                  {priceRange.map((item, index) => {
                     return (
-                      <div key={i} className={styles.itemFiltersItems}>
+                      <div key={index} className={styles.itemFiltersItems}>
                         <input
                           type="checkbox"
                           name={item}
                           value={item}
                           className={styles.itemInput}
+                          onChange={() => handlePriceFiltering(item, index)}
+                          checked={activeCheckedPrice === index ? true : false}
                         />
 
                         <label htmlFor={item} className={styles.itemLabel}>
@@ -415,13 +486,14 @@ const Home: NextPage = () => {
 export default Home;
 
 const materials = [
-  "wood",
+  "Wood",
   "Concrete",
   "Brick",
   "Glass",
   "Steel",
   "Carbon Fiber",
   "Copper",
+  "Plastic",
 ];
 
 const priceRange = [
