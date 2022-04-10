@@ -31,6 +31,9 @@ const Home: NextPage = () => {
   const [currentHoveredItem, setCurrentHoveredItem] = useState<number | null>(
     null
   );
+  const [currentSortMethod, setCurrentSortMethod] = useState("");
+  const [togglePrice, setTogglePrice] = useState(false);
+  const [toggleAlphabit, setToggleAlphabit] = useState(false);
 
   useEffect(() => {
     const getFeaturedItem = (): GalleryData | undefined => {
@@ -53,17 +56,20 @@ const Home: NextPage = () => {
   };
 
   const handleAddToCart = (product: GalleryData) => {
-    cartItems.push(product);
-    setCartItemsCount(cartItems.length);
-    setCartItems(cartItems);
+    const addItems: any = [];
+    addItems.push(product);
+    setCartItems((prevState) => [...prevState, ...addItems]);
+
+    setCartItemsCount(addItems.length);
     setIsCartPopupOpen(true);
   };
 
   const removeSelectedItem = (index: number) => {
-    cartItems.splice(index, 1);
-    setCartItemsCount(cartItems.length);
-    setCartItems(cartItems);
-    if (cartItems.length === 0) {
+    const removeItems = [...cartItems];
+    removeItems.splice(index, 1);
+    setCartItems(removeItems);
+    setCartItemsCount(removeItems.length);
+    if (removeItems.length === 0) {
       setIsCartPopupOpen(false);
     }
   };
@@ -82,6 +88,45 @@ const Home: NextPage = () => {
   const removeAddToCartBtn = () => {
     setAddToCartBtn(false);
     setCurrentHoveredItem(null);
+  };
+
+  const handleSorting = (event?: any, sortMethodType?: string) => {
+    const sortMethod = event ? event.target.value : sortMethodType;
+    let sortedArr = galleryData.products;
+    setCurrentSortMethod(sortMethod);
+    switch (sortMethod) {
+      case "Price":
+        setTogglePrice(!togglePrice);
+        sortedArr.sort((a, b) => {
+          return togglePrice
+            ? parseFloat(a.price) - parseFloat(b.price)
+            : parseFloat(b.price) - parseFloat(a.price);
+        });
+
+        console.log("sortedArr 1", galleryData);
+
+        setCartItems(sortedArr);
+        break;
+
+      case "Alphabet":
+        setToggleAlphabit(!toggleAlphabit);
+        sortedArr.sort((a, b) => {
+          return toggleAlphabit
+            ? a.name.localeCompare(b.name)
+            : b.name.localeCompare(a.name);
+        });
+
+        console.log("sortedArr 2", galleryData);
+        setCartItems(sortedArr);
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const toggleSorting = () => {
+    handleSorting(null, currentSortMethod);
   };
 
   return (
@@ -238,13 +283,23 @@ const Home: NextPage = () => {
               </div>
 
               <div className={styles.gallerySort}>
-                <Sorting />
+                <div
+                  className={styles.gallerySortByIcon}
+                  onClick={toggleSorting}
+                >
+                  <Sorting />
+                </div>
 
                 <div className={styles.gallerySortBy}>SortBy</div>
 
-                <div className={styles.galleryPrice}>
-                  Price <ArrowDown />
-                </div>
+                <select
+                  className={styles.galleryPrice}
+                  onChange={handleSorting}
+                  value={currentSortMethod}
+                >
+                  <option value="Price">Price</option>
+                  <option value="Alphabet">Alphabet</option>
+                </select>
               </div>
             </div>
 
@@ -299,9 +354,8 @@ const Home: NextPage = () => {
                 {galleryData.products.slice(0, 6).map((product, index) => {
                   return (
                     <div
-                      key={product.name}
+                      key={index}
                       className={styles.product}
-                      onClick={() => handleAddToCart(product)}
                       onMouseEnter={() => showAddToCartBtn(index)}
                       onMouseLeave={removeAddToCartBtn}
                     >
@@ -320,7 +374,10 @@ const Home: NextPage = () => {
                         )}
 
                         {addToCartBtn && currentHoveredItem === index && (
-                          <div className={styles.galleryShowcaseAddCart}>
+                          <div
+                            className={styles.galleryShowcaseAddCart}
+                            onClick={() => handleAddToCart(product)}
+                          >
                             <div className={styles.galleryShowcaseAddCartTitle}>
                               ADD TO CART
                             </div>
@@ -329,11 +386,11 @@ const Home: NextPage = () => {
                       </div>
 
                       <div className={styles.galleryShowcaseTitle}>
-                        {product.name}
+                        {product.category}
                       </div>
 
                       <div className={styles.galleryShowcaseSubtitle}>
-                        {product.category}
+                        {product.name}
                       </div>
 
                       <div className={styles.galleryShowcasePrice}>
