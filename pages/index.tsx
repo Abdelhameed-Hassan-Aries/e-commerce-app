@@ -130,10 +130,7 @@ const Home: NextPage = () => {
     handleSorting(null, currentSortMethod);
   };
 
-  const handleMaterialFiltering = (event: any, materialName: string) => {
-    console.log("event", event.target.checked);
-    const selectedFilter = event.target.value;
-  };
+  const handleMaterialFiltering = (event: any, materialName: string) => {};
 
   const handlePriceFiltering = (Range: string, index: number) => {
     if (index === activeCheckedPrice) {
