@@ -96,7 +96,7 @@ const Home: NextPage = () => {
 
   const handleSorting = (event?: any, sortMethodType?: string) => {
     const sortMethod: SortMethod = event ? event.target.value : sortMethodType;
-    let sortedArr = galleryData.products;
+    let sortedArr = galleryItems;
     setCurrentSortMethod(sortMethod);
     switch (sortMethod) {
       case "Price":
